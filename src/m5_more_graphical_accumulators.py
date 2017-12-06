@@ -9,8 +9,8 @@ Additionally, it emphasizes that you must
 before you can implement a solution to the problem in Python. 
   
 Authors: David Mutchler, Dave Fisher, Valerie Galluzzi, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         their colleagues and Ethan Baker.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import rosegraphics as rg
 
@@ -98,7 +98,7 @@ def draw_squares_from_circle(n, circle, window):
       :type window: rg.RoseWindow
     """
     # ------------------------------------------------------------------
-    # TODO: 2. Implement and test this function.
+    # DONE: 2. Implement and test this function.
     #          Tests have been written for you (above).
     #
     # CONSIDER using the ACCUMULATOR IN GRAPHICS pattern,
@@ -111,6 +111,17 @@ def draw_squares_from_circle(n, circle, window):
     #          ** FIRST DO A CONCRETE EXAMPLE BY HAND! **
     ####################################################################
     # ------------------------------------------------------------------
+
+    circle.attach_to(window)
+    center_point = circle.center
+    d = 2 * circle.radius
+    r = circle.radius
+    for k in range(n):
+        square = rg.Square(center_point, d)
+        square.attach_to(window)
+        center_point = rg.Point(center_point.x + r, center_point.y + r)
+
+    window.render()
 
 
 def run_test_draw_circles_from_rectangle():
@@ -135,6 +146,33 @@ def run_test_draw_circles_from_rectangle():
     ####################################################################
     # ------------------------------------------------------------------
 
+    title = 'Tests 1 and 2 of DRAW_CIRCLES_FROM_RECTANGLE: '
+    title = title + ' 8 blue in row, 3 in column; then 4 green in row, 5 in column'
+    window3 = rg.RoseWindow(720, 500, title)
+
+    # Test 1:
+    rectangle = rg.Rectangle(rg.Point(400, 250), rg.Point(440, 325))
+    rectangle.fill_color = 'green'
+    draw_circles_from_rectangle(4, 5, rectangle, window3)
+
+    # Test 2:
+    rectangle = rg.Rectangle(rg.Point(600, 400), rg.Point(500, 450))
+    rectangle.fill_color = 'blue'
+    draw_circles_from_rectangle(8, 3, rectangle, window3)
+    window3.close_on_mouse_click()
+
+    # New Window
+
+    title = 'Test 3 of DRAW_CIRCLES_FROM_RECTANGLES: '
+    title += ' 6 yellow in row, 10 in column'
+    window4 = rg.RoseWindow(620, 380, title)
+
+    # Test 3:
+    rectangle = rg.Rectangle(rg.Point(400, 250), rg.Point(440, 325))
+    rectangle.fill_color = 'yellow'
+    draw_circles_from_rectangle(4, 5, rectangle, window4)
+
+    window4.close_on_mouse_click()
 
 def draw_circles_from_rectangle(m, n, rectangle, window):
     """
@@ -189,6 +227,29 @@ def draw_circles_from_rectangle(m, n, rectangle, window):
     #          ** FIRST DO A CONCRETE EXAMPLE BY HAND! **
     ####################################################################
     # ------------------------------------------------------------------
+
+    rectangle.attach_to(window)
+    height = rectangle.get_height()
+    width = rectangle.get_width()
+    left_edge = rectangle.get_upper_left_corner()
+    r1 = height / 2
+    r2 = width / 2
+    print(height, width)
+    if rectangle.fill_color == 'green' or 'yellow':
+        rectangle.outline_thickness = 5
+    else:
+        rectangle.outline_thickness = 3
+    for k in range(m):
+        x = left_edge.x - r1
+        y = left_edge.y + r1
+        circle_center_point = rg.Point(x, y)
+        circle = rg.Circle(circle_center_point, r1)
+        circle.fill_color = rectangle.fill_color
+        circle.attach_to(window)
+        left_edge.x = left_edge.x - height
+
+    window.render()
+
 
 
 def run_test_draw_lines_from_rectangles():
