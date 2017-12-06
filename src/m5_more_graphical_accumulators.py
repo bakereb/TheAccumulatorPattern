@@ -174,6 +174,7 @@ def run_test_draw_circles_from_rectangle():
 
     window4.close_on_mouse_click()
 
+
 def draw_circles_from_rectangle(m, n, rectangle, window):
     """
     What comes in:  Four arguments:
@@ -234,19 +235,32 @@ def draw_circles_from_rectangle(m, n, rectangle, window):
     left_edge = rectangle.get_upper_left_corner()
     r1 = height / 2
     r2 = width / 2
-    print(height, width)
     if rectangle.fill_color == 'green' or 'yellow':
         rectangle.outline_thickness = 5
     else:
         rectangle.outline_thickness = 3
     for k in range(m):
-        x = left_edge.x - r1
-        y = left_edge.y + r1
-        circle_center_point = rg.Point(x, y)
+        x1 = left_edge.x - r1
+        y1 = left_edge.y + r1
+        circle_center_point = rg.Point(x1, y1)
         circle = rg.Circle(circle_center_point, r1)
         circle.fill_color = rectangle.fill_color
         circle.attach_to(window)
         left_edge.x = left_edge.x - height
+
+    left_edge_point = rectangle.get_upper_left_corner()
+    height = rectangle.get_height()
+    width = rectangle.get_width()
+
+    r1 = width / 2
+    r2 = height / 2
+    for k in range(n):
+        x2 = left_edge_point.x + r1
+        y2 = left_edge_point.y - r1
+        circle_center_point = rg.Point(x2, y2)
+        circle = rg.Circle(circle_center_point, r1)
+        circle.attach_to(window)
+        left_edge_point.y = left_edge_point.y - width
 
     window.render()
 
